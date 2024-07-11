@@ -22,3 +22,19 @@ def check_pok(user):
     else:
         return False
 
+def verify_level(username):
+    User = Query()
+    does_exist = trainer_table.search(User.name == username)
+    print(does_exist)
+    if not does_exist:
+        return 0
+    elif does_exist:
+        atemp = does_exist[0]['can_level']
+        if atemp == 'False' or not atemp:
+            return 1
+        elif atemp == 'True':
+            new_level = does_exist[0]['level'] + 1
+            trainer_table.upsert({'can_level': 'False', 'level': new_level}, User['name'] == username)
+            return 2
+        else: print('error 1')
+    else: print('error 2')

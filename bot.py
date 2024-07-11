@@ -53,7 +53,7 @@ class Bot(commands.Bot):
             await ctx.send(f"{ctx.author.name} already generated a {pok['pokemon']}")
         else:
             i = gen_pok()
-            trainer_table.insert({{"name": ctx.author.name}, {"pokemon": i}})
+            trainer_table.insert({"name": ctx.author.name, "pokemon": i, 'level': 1, 'can_level': 'False'})
             await ctx.send(f"{ctx.author.name}'s random Pokemon is {i}!")
 
     @commands.command()
@@ -70,6 +70,29 @@ class Bot(commands.Bot):
     @commands.command()
     async def barry(self, ctx: commands.Context):
         await ctx.send("Barry is a big ol bitch")
+
+    @commands.command()
+    async def levelup(self, ctx: commands.Context):
+        check = Query()
+        current_user = trainer_table.get(check['name'] == ctx.author.name)
+        boo = verify_level(ctx.author.name)
+        if boo == 0:
+            await ctx.send(f'It seems {ctx.author.name} does not yet have a pokemon. Try ?pokegen')
+        elif boo == 1:
+            await ctx.send(f'{ctx.author.name} has already levelled up {current_user["pokemon"]} this stream')
+        elif boo == 2:
+            await ctx.send(f'{ctx.author.name}: your {current_user["pokemon"]} is now level {current_user["level"] + 1}!')
+
+    @commands.command()
+    async def pokeflex(self, ctx: commands.Context):
+        Test = Query()
+        current_user = trainer_table.get(Test['name'] == ctx.author.name)
+        if not current_user:
+            await ctx.send(f'It seems {ctx.author.name} does not yet have a pokemon. Try ?pokegen')
+        elif current_user:
+            await ctx.send(f'{ctx.author.name} is rocking a level {current_user["level"]} {current_user["pokemon"]}. Nice!')
+
+
 
 
 
