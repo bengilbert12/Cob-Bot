@@ -71,18 +71,7 @@ class Bot(commands.Bot):
     async def barry(self, ctx: commands.Context):
         await ctx.send("Barry is a big ol bitch")
 
-    @commands.command(name="lol")
-    async def lol(self, ctx: commands.Context):
-        table = db.table("pokemon")
-        table.insert({"name": "Raichu"})
 
-        
-    @commands.command(name="lol2")
-    async def lol2(self, ctx: commands.Context):
-        table = db.table("pokemon")
-        Pokemon = Query()
-        test = table.search(Pokemon.name == "Pikachu")
-        await ctx.send(f"{test}")
 
 
 
